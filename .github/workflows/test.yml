@@ -42,4 +42,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: Deploy application to Lambda with Zappa # 자파로 람다에 배포 완료
-      run: zappa update dev
+      run: |
+        source ./venv/bin/activate
+        zappa update dev
