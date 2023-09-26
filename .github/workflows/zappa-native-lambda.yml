@@ -8,8 +8,6 @@ on: # 어떤 경우에 이 워크플로가 실행되는지 정해줍니다
 jobs: # 한 워크플로는 여러 병렬 실행 가능한 잡을 가질 수 있습니다
   deploy: # 잡 이름을 정해줍니다
     runs-on: ubuntu-latest # 깃허브 서버 내 가상환경의 최신 우분투 환경을 세팅해 진행
-    env: # 환경변수를 정해줄 수 있습니다
-      ECR_IMAGE_URI: ${{ secrets.ECR_IMAGE_URI }} # 저장소의 비밀 환경변수를 정해주었습니다
     steps: # 잡의 각 단계입니다
       - name: Checkout # 잡의 이름으로, 깃허브 서버로 이 저장소를 내려받습니다
         uses: actions/checkout@v3 # https://github.com/actions/checkout에서 액션을 공유받아 쓸 수 있습니다
