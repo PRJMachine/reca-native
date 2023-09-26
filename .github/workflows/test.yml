@@ -17,10 +17,29 @@ jobs:
       run: | # 커맨드라인 명령어를 사용할 수 있습니다
         python3 -m venv venv
         source ./venv/bin/activate
-    - name: cmd testing
+    - name: kappa installing
       run: |
         git clone https://github.com/garnaat/kappa -b 0.6.0
+        rm ./kappa/setup.py
+        cp setup.py ./kappa/setup.py
         cd kappa
         pip3 install .
-        pwd
-        ls -R # 현재 환경에 있는 파일을 나열합니다.
+        cd ..
+    # - name: listing files
+    #   run: |
+    #     pwd
+    #     ls -R # 현재 환경에 있는 파일을 나열합니다.
+    - name: Install Python libraries with pip # pip로 파이썬 라이브러리 설치
+      run: |
+        pip3 install --upgrade pip
+        pip3 install flask
+        pip3 install zappa
+        pip3 install -r requirements.txt
+    - name: Configure AWS credentials # AWS 계정 로그인
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ap-northeast-2
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: Deploy application to Lambda with Zappa # 자파로 람다에 배포 완료
+      run: zappa update dev
