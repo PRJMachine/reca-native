@@ -1,11 +1,8 @@
 name: Clone Repository
-
 on: [push] # 워크플로우를 언제 실행할 것인지 정의합니다. 여기서는 push 이벤트 발생 시 실행합니다.
-
 jobs:
   clone_repository:
-    runs-on: ubuntu-latest # 가상 머신 환경을 선택합니다. 여기서는 최신 버전의 Ubuntu 환경을 사용합니다.
-
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4 # 저장소 코드를 현재 환경으로 체크아웃합니다.
@@ -14,34 +11,26 @@ jobs:
       with: # 공유받은 액션을 위한 매개변수를 지정해야 합니다
         python-version: 3.8 # 액션에서 파이썬 3.8 버전을 사용하도록 합니다
     - name: Activate a virtual environment # 자파를 위한 가상환경 설치
-      run: | # 커맨드라인 명령어를 사용할 수 있습니다
+      run: | 
         python3 -m venv venv
         source ./venv/bin/activate
-    - name: kappa installing
-      run: |
-        git clone https://github.com/garnaat/kappa -b 0.6.0
-        rm ./kappa/setup.py
-        cp setup.py ./kappa/setup.py
-        cd kappa
-        pip3 install .
-        cd ..
-    # - name: listing files
-    #   run: |
-    #     pwd
-    #     ls -R # 현재 환경에 있는 파일을 나열합니다.
     - name: Install Python libraries with pip # pip로 파이썬 라이브러리 설치
       run: |
+        source ./venv/bin/activate  
         pip3 install --upgrade pip
         pip3 install flask
         pip3 install zappa
-        pip3 install -r requirements.txt
     - name: Configure AWS credentials # AWS 계정 로그인
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-region: ap-northeast-2
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: listing files # 현재 환경에 있는 파일을 나열합니다.
+      run: |
+        pwd
+        ls -R
     - name: Deploy application to Lambda with Zappa # 자파로 람다에 배포 완료
       run: |
         source ./venv/bin/activate
-        zappa update dev
+        zappa update vvv
