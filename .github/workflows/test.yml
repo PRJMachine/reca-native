@@ -8,7 +8,9 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2 # 저장소 코드를 현재 환경으로 체크아웃합니다.
+      uses: actions/checkout@v4 # 저장소 코드를 현재 환경으로 체크아웃합니다.
 
     - name: List files
-      run: ls -R # 현재 환경에 있는 파일을 나열합니다.
+      run: |
+        pwd
+        ls -R # 현재 환경에 있는 파일을 나열합니다.
