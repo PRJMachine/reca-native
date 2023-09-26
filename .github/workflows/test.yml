@@ -1,0 +1,14 @@
+name: Clone Repository
+
+on: [push] # 워크플로우를 언제 실행할 것인지 정의합니다. 여기서는 push 이벤트 발생 시 실행합니다.
+
+jobs:
+  clone_repository:
+    runs-on: ubuntu-latest # 가상 머신 환경을 선택합니다. 여기서는 최신 버전의 Ubuntu 환경을 사용합니다.
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2 # 저장소 코드를 현재 환경으로 체크아웃합니다.
+
+    - name: List files
+      run: ls -R # 현재 환경에 있는 파일을 나열합니다.
